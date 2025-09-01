@@ -1,0 +1,53 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build & Test (LaunchAlertKit)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper/
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle
+
+      - name: Run tests (LaunchAlertKit)
+        run: ./gradlew :launchalertKit:clean :launchalertKit:testDebugUnitTest --stacktrace
+
+      - name: Generate JaCoCo report (ForceUpdateKit)
+        run: ./gradlew :launchalertKit:jacocoTestReport
+
+      - name: Upload JaCoCo HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: launchalertKit-jacoco-report
+          path: launchalertKit/build/reports/jacoco/jacocoTestReport/html
+          if-no-files-found: error
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: launchalertKit/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          flags: launchalertKit
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}

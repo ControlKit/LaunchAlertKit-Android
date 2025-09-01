@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.first
 
 private val Context.dataStore by preferencesDataStore("user_prefs")
 
-class LocalDataSource  constructor( val context: Context) {
+class LocalDataSource(val context: Context) {
 
     private val LAST_ID = stringPreferencesKey("last_id")
 

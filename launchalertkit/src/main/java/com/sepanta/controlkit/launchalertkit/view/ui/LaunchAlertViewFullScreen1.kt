@@ -201,8 +201,6 @@ class LaunchAlertViewFullScreen1 : LaunchAlertViewContract {
                 style = Typography.titleMedium
             )
         }
-
-
     }
 
     @OptIn(ExperimentalMaterial3Api::class)

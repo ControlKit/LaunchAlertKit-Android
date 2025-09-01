@@ -1,6 +1,5 @@
 package com.sepanta.controlkit.launchalertkit.view.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sepanta.controlkit.launchalertkit.config.LaunchAlertServiceConfig
@@ -54,14 +53,12 @@ class LaunchAlertViewModel(
             when (data) {
                 is NetworkResult.Success -> {
 
-                    if (data.value != null) {
-                        val responce = data.value.toDomain()
-                        saveLastId(responce)
-                        _mutableState.value = LaunchAlertState.Update(responce)
-
-                    } else {
+                    val response = data.value?.toDomain()
+                    if (response == null || response.id == null) {
                         _mutableState.value = LaunchAlertState.NoUpdate
-
+                    } else {
+                        saveLastId(response)
+                        _mutableState.value = LaunchAlertState.Update(response)
                     }
                 }
 
