@@ -31,27 +31,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
-      # 🔍 لیست همه تسک‌های ماژول
-      - name: Debug – list Gradle tasks for module
-        run: ./gradlew :launchalertKit:tasks --all
-
       - name: Run tests & generate JaCoCo report (LaunchAlertKit)
-        run: ./gradlew :launchalertKit:clean :launchalertKit:jacocoTestReport --stacktrace
+        run: ./gradlew :launchalertkit:clean :launchalertkit:jacocoTestReport --stacktrace
 
+      # 🔍 ببینیم فایل‌های exec/ec ساخته میشن یا نه
+      - name: Debug – list executionData
+        run: ls -R launchalertkit/build | grep -E "\.exec|\.ec" || echo "No exec/ec files"
+
+      # 🔍 ببینیم report ساخته شده یا نه
       - name: Debug – list build reports
-        run: ls -R launchalertKit/build/reports/jacoco || true
+        run: ls -R launchalertkit/build/reports/jacoco || true
 
       - name: Upload JaCoCo HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: launchalertKit-jacoco-report
-          path: launchalertKit/build/reports/jacoco/jacocoTestReport/html
+          name: launchalertkit-jacoco-report
+          path: launchalertkit/build/reports/jacoco/jacocoTestReport/html
           if-no-files-found: error
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          files: launchalertKit/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
-          flags: launchalertKit
+          files: launchalertkit/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          flags: launchalertkit
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
