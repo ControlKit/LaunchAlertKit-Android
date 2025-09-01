@@ -5,6 +5,12 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      upload_html:
+        description: "Upload JaCoCo HTML artifact?"
+        required: false
+        default: "false"
 
 jobs:
   build:
@@ -37,16 +43,17 @@ jobs:
       - name: Generate JaCoCo report
         run: ./gradlew :launchalertkit:jacocoTestReport
 
-      - name: Upload JaCoCo HTML report
-        uses: actions/upload-artifact@v4
-        with:
-          name: launchalertkit-jacoco-report
-          path: launchalertkit/build/reports/jacoco/jacocoTestReport/html
-          if-no-files-found: error
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           files: launchalertkit/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           flags: launchalertkit
-          fail_ci_if_error: t_
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload JaCoCo HTML report (optional)
+        if: github.event.inputs.upload_html == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: launchalertkit-jacoco-report
+          path: launchalertkit/build/reports/jacoco/jacocoTestReport/html
