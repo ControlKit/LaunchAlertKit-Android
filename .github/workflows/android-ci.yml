@@ -31,10 +31,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
+      # 🔍 لیست همه تسک‌های ماژول
+      - name: Debug – list Gradle tasks for module
+        run: ./gradlew :launchalertKit:tasks --all
+
       - name: Run tests & generate JaCoCo report (LaunchAlertKit)
         run: ./gradlew :launchalertKit:clean :launchalertKit:jacocoTestReport --stacktrace
 
-      # 🔍 مرحله دیباگ: ببینیم دقیقا چه فایلی ساخته شده
       - name: Debug – list build reports
         run: ls -R launchalertKit/build/reports/jacoco || true
 
