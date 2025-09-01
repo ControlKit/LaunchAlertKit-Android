@@ -31,11 +31,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
-      - name: Run tests (LaunchAlertKit)
-        run: ./gradlew :launchalertKit:clean :launchalertKit:testDebugUnitTest --stacktrace
-
-      - name: Generate JaCoCo report (ForceUpdateKit)
-        run: ./gradlew :launchalertKit:jacocoTestReport
+      # فقط همین کافیه: هم تست اجرا میشه هم ریپورت ساخته میشه
+      - name: Run tests & generate JaCoCo report (LaunchAlertKit)
+        run: ./gradlew :launchalertKit:clean :launchalertKit:jacocoTestReport --stacktrace
 
       - name: Upload JaCoCo HTML report
         uses: actions/upload-artifact@v4
