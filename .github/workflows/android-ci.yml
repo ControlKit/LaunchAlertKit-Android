@@ -31,16 +31,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
-      - name: Run tests & generate JaCoCo report (LaunchAlertKit)
-        run: ./gradlew :launchalertkit:clean :launchalertkit:jacocoTestReport --stacktrace
+      - name: Run tests (LaunchAlertKit)
+        run: ./gradlew :launchalertkit:clean :launchalertkit:testDebugUnitTest --stacktrace
 
-      # 🔍 ببینیم فایل‌های exec/ec ساخته میشن یا نه
-      - name: Debug – list executionData
-        run: ls -R launchalertkit/build | grep -E "\.exec|\.ec" || echo "No exec/ec files"
-
-      # 🔍 ببینیم report ساخته شده یا نه
-      - name: Debug – list build reports
-        run: ls -R launchalertkit/build/reports/jacoco || true
+      - name: Generate JaCoCo report
+        run: ./gradlew :launchalertkit:jacocoTestReport
 
       - name: Upload JaCoCo HTML report
         uses: actions/upload-artifact@v4
@@ -54,5 +49,4 @@ jobs:
         with:
           files: launchalertkit/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           flags: launchalertkit
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: t_
