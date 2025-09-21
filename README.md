@@ -1,585 +1,446 @@
-# 🚀 LaunchAlertKit
+# LaunchAlertKit 📱
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/your-username/LaunchAlertKit)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![JitPack](https://img.shields.io/jitpack/v/github/ControlKit/LaunchAlertKit-Android.svg)](https://jitpack.io/#ControlKit/LaunchAlertKit-Android)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 
-**LaunchAlertKit** is a powerful and flexible library for displaying launch alerts in Android applications. It provides a modern, customizable UI for showing important messages, updates, and notifications when your app starts.
+A powerful and customizable Android library for managing launch alerts in your applications. Built with Jetpack Compose and modern Android architecture patterns.
 
 ## ✨ Features
 
-- 🎨 **Modern & Customizable Design** - Beautiful UI with full customization options
-- 🌍 **Multi-language Support** - Display content in different languages
+- 🎨 **5 Beautiful UI Styles** - FullScreen and Popover variants
+- 🌍 **Multi-language Support** - Localized content support
+- 🔧 **Highly Customizable** - Customize every aspect of the UI
+- 🏗️ **Modern Architecture** - MVVM with Repository pattern
+- 🧪 **Well Tested** - Comprehensive unit and UI tests
+- 📊 **Analytics Ready** - Built-in action tracking (VIEW, CONFIRM)
+- 🚀 **Easy Integration** - Simple setup with minimal code
+- 💪 **Error Handling** - Robust error management with retry mechanisms
 - 🔄 **Smart UUID Management** - Prevent duplicate alert displays
-- 📱 **Jetpack Compose Compatible** - Easy integration with modern projects
-- 🛡️ **Error Handling** - Complete network and API error management
-- ⚡ **High Performance** - Optimized for better performance
-- 🔧 **Configurable** - Full configuration through code
 
 ## 📦 Installation
 
-### Gradle
+Add the JitPack repository to your project's `build.gradle`:
 
-Add to your `build.gradle` (Module: app):
+```gradle
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+Add the dependency to your app's `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation 'com.github.your-username:LaunchAlertKit:1.0.0'
+    implementation 'com.github.ControlKit:LaunchAlertKit-Android:0.0.1'
 }
 ```
 
 ## 🚀 Quick Start
 
-### 1. Basic Configuration
-
-In your `Application` class:
+### Basic Usage
 
 ```kotlin
-class MyApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        
-        LaunchAlertKit.configure(
-            context = this,
-            config = LaunchAlertServiceConfig(
-                version = BuildConfig.VERSION_NAME,
-                appId = "your_app_id",
-                deviceId = getDeviceId(),
-                lang = Locale.getDefault().language
-            )
+import com.sepanta.controlkit.launchalertkit.LaunchAlertKit
+import com.sepanta.controlkit.launchalertkit.config.LaunchAlertServiceConfig
+import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewConfig
+import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewStyle
+
+@Composable
+fun MyApp() {
+    val kit = LaunchAlertKit.configure(
+        context = LocalContext.current,
+        config = LaunchAlertServiceConfig(
+            version = "1.0.0",
+            appId = "your-app-id",
+            deviceId = "unique-device-id",
+            lang = "en"
         )
-    }
+    )
+    
+    // Display LaunchAlert
+    LaunchAlertView(
+        config = LaunchAlertViewConfig(
+            launchAlertViewStyle = LaunchAlertViewStyle.FullScreen1
+        )
+    )
 }
 ```
 
-### 2. Usage in Activity/Fragment
+## 🎨 UI Styles
 
-```kotlin
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        
-        setContent {
-            MyAppTheme {
-                // Main app content
-                MainContent()
-                
-                // Display LaunchAlert
-                LaunchAlertView()
-            }
-        }
-    }
-}
-```
+LaunchAlertKit provides 5 different UI styles to match your app's design:
 
-## ⚙️ Advanced Configuration
+### FullScreen Styles
 
-### LaunchAlertServiceConfig
-
-```kotlin
-val config = LaunchAlertServiceConfig(
-    version = "1.0.0",                    // App version
-    appId = "com.example.myapp",          // App identifier
-    deviceId = "unique_device_id",        // Unique device identifier
-    lang = "en",                          // Language (en, fa, ar, ...)
-    timeOut = 30000L,                     // Request timeout (milliseconds)
-    maxRetry = 3                          // Maximum retry attempts
-)
-```
-
-### LaunchAlertViewConfig
-
-```kotlin
-val viewConfig = LaunchAlertViewConfig(
-    title = "Important Alert",            // Default title
-    message = "Default message",          // Default message
-    buttonText = "Confirm",               // Confirm button text
-    cancelButtonText = "Cancel",          // Cancel button text
-    showCancelButton = true,              // Show cancel button
-    isDismissible = true,                 // Dismissible by outside click
-    backgroundColor = Color.White,         // Background color
-    titleColor = Color.Black,             // Title color
-    messageColor = Color.Gray,            // Message color
-    buttonColor = Color.Blue,             // Button color
-    cornerRadius = 16.dp,                 // Corner radius
-    elevation = 8.dp                      // Elevation
-)
-```
-
-## 🎨 UI Customization
-
-LaunchAlertKit provides 5 different built-in styles to choose from:
-
-### Available Styles
-
-#### 1. FullScreen1 - Full Screen Alert
-![FullScreen1 Style](docs/images/fullscreen1.png)
-- Full screen overlay with dark background
+#### FullScreen1 - Clean & Minimal
+![FullScreen1](docs/images/fullscreen1.png)
+- Full-screen overlay with dark background
 - Large image display (216dp height)
 - Centered content layout
 - Yellow submit button with transparent cancel button
 
-```kotlin
-LaunchAlertView(
-    config = LaunchAlertViewConfig(
-        launchAlertViewStyle = LaunchAlertViewStyle.FullScreen1
-    )
-)
-```
+### Popover Styles
 
-#### 2. Popover1 - Overlapping Button Style
-![Popover1 Style](docs/images/popover1.png)
+#### Popover1 - Overlapping Button Style
+![Popover1](docs/images/popover1.png)
 - Green background with rounded corners
 - Image with title and description
 - Overlapping submit button (offset by -28dp)
 - Close button in top-right corner
 
-```kotlin
-LaunchAlertView(
-    config = LaunchAlertViewConfig(
-        launchAlertViewStyle = LaunchAlertViewStyle.Popover1
-    )
-)
-```
-
-#### 3. Popover2 - Standard Popup Style
-![Popover2 Style](docs/images/popover2.png)
+#### Popover2 - Standard Popup Style
+![Popover2](docs/images/popover2.png)
 - Dark background with rounded corners
 - Standard button layout (submit and cancel)
 - Full-width buttons with proper spacing
 - Orange color scheme
 
-```kotlin
-LaunchAlertView(
-    config = LaunchAlertViewConfig(
-        launchAlertViewStyle = LaunchAlertViewStyle.Popover2
-    )
-)
-```
-
-#### 4. Popover3 - Alternative Popup Style
-![Popover3 Style](docs/images/popover3.png)
+#### Popover3 - Alternative Popup Style
+![Popover3](docs/images/popover3.png)
 - Alternative layout with different spacing
 - Customizable colors and dimensions
 - Flexible button positioning
 
-```kotlin
-LaunchAlertView(
-    config = LaunchAlertViewConfig(
-        launchAlertViewStyle = LaunchAlertViewStyle.Popover3
-    )
-)
-```
-
-#### 5. Popover4 - Modern Popup Style
-![Popover4 Style](docs/images/popover4.png)
+#### Popover4 - Modern Popup Style
+![Popover4](docs/images/popover4.png)
 - Modern design with enhanced visuals
 - Optimized for mobile devices
 - Clean and minimal interface
 
+## ⚙️ Configuration
+
+### Service Configuration
+
 ```kotlin
-LaunchAlertView(
-    config = LaunchAlertViewConfig(
-        launchAlertViewStyle = LaunchAlertViewStyle.Popover4
-    )
+LaunchAlertServiceConfig(
+    // Required
+    version = "1.0.0",                    // Current app version
+    appId = "your-app-id",                // Unique app identifier
+    deviceId = "device-id",               // Device identifier
+    
+    // Optional
+    timeOut = 30000L,                     // API timeout in milliseconds
+    maxRetry = 3,                         // Maximum retry attempts
+    lang = "en"                           // Language code
 )
 ```
 
-### Custom Style Configuration
+### View Configuration
 
 ```kotlin
-val customConfig = LaunchAlertViewConfig(
+LaunchAlertViewConfig(
     // Style Selection
-    launchAlertViewStyle = LaunchAlertViewStyle.Popover1,
+    launchAlertViewStyle = LaunchAlertViewStyle.FullScreen1,
+    
+    // Image Configuration
+    imageDrawble = R.drawable.alert_icon,     // Custom image resource
+    placeholderImageDrawble = R.drawable.placeholder,
+    errorImageDrawble = R.drawable.error_icon,
+    contentScaleImageDrawble = ContentScale.Fit,
+    
+    // Layout Modifiers
+    popupViewLayoutModifier = Modifier.fillMaxSize(),
+    popupViewBackGroundColor = Color.White,
+    popupViewCornerRadius = 16.dp,
+    
+    // Text Content
+    headerTitle = "Welcome to Our App",
+    descriptionTitle = "We're excited to have you! Please read our terms and conditions.",
+    submitButtonTitle = "Continue",
+    cancelButtonTitle = "Cancel",
     
     // Colors
-    popupViewBackGroundColor = Color(0xFF1E1E1E),
-    headerTitleColor = Color(0xFFFFFFFF),
-    descriptionTitleColor = Color(0xFFCCCCCC),
-    submitButtonColor = Color(0xFF007AFF),
-    cancelButtonColor = Color(0xFF8E8E93),
-    
-    // Layout
-    popupViewCornerRadius = 20.dp,
-    
-    // Images
-    imageDrawble = R.drawable.custom_icon,
-    closeImageDrawble = R.drawable.custom_close,
-    placeholderImageDrawble = R.drawable.placeholder,
-    errorImageDrawble = R.drawable.error_image,
-    
-    // Content
-    headerTitle = "Custom Title",
-    descriptionTitle = "Custom description text",
-    submitButtonTitle = "Confirm",
-    cancelButtonTitle = "Cancel"
+    headerTitleColor = Color.Black,
+    descriptionTitleColor = Color.Gray,
+    submitButtonColor = Color.Blue,
+    cancelButtonColor = Color.Gray
 )
 ```
 
-### Built-in Images
+## 🔧 Advanced Usage
 
-LaunchAlertKit includes several built-in images for different purposes:
-
-- **background.png** - Default background for FullScreen1 style
-- **background2.png** - Alternative background for Popover2 style  
-- **background3.png** - Additional background option
-- **close.png** - Close button icon
-- **seting.png** - Settings/error placeholder icon
-
-### Custom Images
+### Custom Image Loading
 
 ```kotlin
-val viewConfig = LaunchAlertViewConfig(
-    // Custom drawable resources
-    imageDrawble = R.drawable.custom_icon,
-    closeImageDrawble = R.drawable.custom_close,
-    placeholderImageDrawble = R.drawable.placeholder,
-    errorImageDrawble = R.drawable.error_image,
-    
-    // Custom image scaling
-    contentScaleImageDrawble = ContentScale.Crop,
-    
-    // Custom image colors
-    updateImageColor = Color.Blue,
-    closeImageColor = Color.Red
+LaunchAlertViewConfig(
+    imageView = { imageUrl ->
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = "Alert image",
+            modifier = Modifier
+                .size(200.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(R.drawable.placeholder),
+            error = painterResource(R.drawable.error_icon)
+        )
+    }
 )
 ```
 
-## 📱 Usage Examples
-
-### 1. Simple Alert
+### Custom Button Design
 
 ```kotlin
-@Composable
-fun SimpleAlert() {
-    LaunchAlertView(
-        config = LaunchAlertViewConfig(
-            launchAlertViewStyle = LaunchAlertViewStyle.Popover1,
-            headerTitle = "Welcome!",
-            descriptionTitle = "Welcome to our app. Please read the terms and conditions.",
-            submitButtonTitle = "Continue"
-        )
-    )
-}
-```
-
-### 2. Alert with Cancel Button
-
-```kotlin
-@Composable
-fun AlertWithCancel() {
-    LaunchAlertView(
-        config = LaunchAlertViewConfig(
-            launchAlertViewStyle = LaunchAlertViewStyle.Popover2,
-            headerTitle = "Update Available",
-            descriptionTitle = "A new version of the app is available. Would you like to update?",
-            submitButtonTitle = "Update",
-            cancelButtonTitle = "Later"
-        )
-    )
-}
-```
-
-### 3. Full Screen Alert
-
-```kotlin
-@Composable
-fun FullScreenAlert() {
-    LaunchAlertView(
-        config = LaunchAlertViewConfig(
-            launchAlertViewStyle = LaunchAlertViewStyle.FullScreen1,
-            headerTitle = "Important Notice",
-            descriptionTitle = "This is a full screen alert with maximum visual impact.",
-            submitButtonTitle = "Continue",
-            cancelButtonTitle = "Skip"
-        )
-    )
-}
-```
-
-### 4. Custom Styled Alert
-
-```kotlin
-@Composable
-fun CustomStyledAlert() {
-    LaunchAlertView(
-        config = LaunchAlertViewConfig(
-            launchAlertViewStyle = LaunchAlertViewStyle.Popover3,
-            headerTitle = "Custom Alert",
-            descriptionTitle = "This alert uses custom styling and colors.",
-            submitButtonTitle = "Confirm",
-            cancelButtonTitle = "Cancel",
-            popupViewBackGroundColor = Color(0xFF2E7D32),
-            headerTitleColor = Color.White,
-            submitButtonColor = Color(0xFF4CAF50)
-        )
-    )
-}
-```
-
-## 🔧 Advanced Management
-
-### Using ViewModel
-
-```kotlin
-class MainViewModel : ViewModel() {
-    private val launchAlertViewModel: LaunchAlertViewModel = 
-        LaunchAlertViewModelFactory.create()
-    
-    val alertState by launchAlertViewModel.state.collectAsState()
-    val isDialogOpen by launchAlertViewModel.openDialog.collectAsState()
-    
-    fun checkForAlerts() {
-        launchAlertViewModel.getData()
-    }
-    
-    fun submitAlert() {
-        launchAlertViewModel.submitDialog()
-    }
-    
-    fun dismissAlert() {
-        launchAlertViewModel.dismissDialog()
-    }
-}
-
-@Composable
-fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
-    val alertState by viewModel.alertState
-    val isDialogOpen by viewModel.isDialogOpen
-    
-    LaunchedEffect(Unit) {
-        viewModel.checkForAlerts()
-    }
-    
-    when (alertState) {
-        is LaunchAlertState.ShowView -> {
-            if (isDialogOpen) {
-                LaunchAlertView(
-                    config = LaunchAlertViewConfig(
-                        title = alertState.data?.title ?: "Alert",
-                        message = alertState.data?.description ?: "Message",
-                        buttonText = alertState.data?.buttonTitle ?: "Confirm",
-                        cancelButtonText = alertState.data?.cancelButtonTitle ?: "Cancel",
-                        linkUrl = alertState.data?.linkUrl,
-                        iconUrl = alertState.data?.iconUrl
-                    ),
-                    onConfirm = { viewModel.submitAlert() },
-                    onCancel = { viewModel.dismissAlert() }
+LaunchAlertViewConfig(
+    submitButtonView = { onClick ->
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            OutlinedButton(
+                onClick = { /* Handle cancel */ },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Later")
+            }
+            Button(
+                onClick = onClick,
+                modifier = Modifier.weight(1f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF4CAF50)
                 )
+            ) {
+                Text("Continue")
             }
         }
-        is LaunchAlertState.NoAlert -> {
-            // No alert to display
-        }
-        is LaunchAlertState.ShowViewError -> {
-            // Handle error
-            ErrorDialog(error = alertState.data)
-        }
+    }
+)
+```
+
+### Custom Text Views
+
+```kotlin
+LaunchAlertViewConfig(
+    headerTitleView = { title ->
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center
+        )
+    },
+    descriptionTitleView = { description ->
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center,
+            lineHeight = 24.sp
+        )
+    }
+)
+```
+
+### Error Handling
+
+```kotlin
+val kit = LaunchAlertKit.configure(
+    context = LocalContext.current,
+    config = LaunchAlertServiceConfig(
+        // ... your config
+        maxRetry = 3,          // Number of retry attempts
+        timeOut = 30000L       // API timeout
+    )
+)
+
+// Handle states
+when (state) {
+    is LaunchAlertState.ShowViewError -> {
+        // Handle network or API errors
+        Log.e("LaunchAlert", "Error: ${state.data?.message}")
+    }
+    is LaunchAlertState.ActionError -> {
+        // Error during action
+        Log.e("LaunchAlert", "Action error: ${state.data?.message}")
+    }
+    is LaunchAlertState.NoAlert -> {
+        // No alert to show
+        Log.i("LaunchAlert", "No alert available")
     }
 }
 ```
 
-## 🌍 Multi-language Support
-
-### Setting Language
+### Multi-language Support
 
 ```kotlin
-// In Application
-LaunchAlertKit.configure(
-    context = this,
-    config = LaunchAlertServiceConfig(
-        // ... other settings
-        lang = when (Locale.getDefault().language) {
-            "fa" -> "fa"
-            "en" -> "en"
-            "ar" -> "ar"
-            else -> "en"
-        }
-    )
+LaunchAlertServiceConfig(
+    // ... other config
+    lang = "fa"  // Persian
+    // lang = "ar"  // Arabic
+    // lang = "en"  // English
 )
 ```
 
-### Multilingual Content
+## 📊 State Management
+
+The library provides comprehensive state management through `LaunchAlertState`:
 
 ```kotlin
-val multilingualConfig = LaunchAlertViewConfig(
-    title = mapOf(
-        "fa" to "هشدار مهم",
-        "en" to "Important Alert",
-        "ar" to "تنبيه مهم"
-    ),
-    message = mapOf(
-        "fa" to "این یک پیام مهم است",
-        "en" to "This is an important message",
-        "ar" to "هذه رسالة مهمة"
-    )
-)
-```
-
-## 🔒 Security
-
-### Security Settings
-
-```kotlin
-val secureConfig = LaunchAlertServiceConfig(
-    // ... other settings
-    timeOut = 15000L,        // Shorter timeout
-    maxRetry = 1,            // Fewer retries
-    validateSSL = true,      // SSL validation
-    allowInsecureConnections = false  // No insecure connections
-)
-```
-
-## 📊 Monitoring and Logging
-
-### Enable Logging
-
-```kotlin
-// In Application
-if (BuildConfig.DEBUG) {
-    LaunchAlertKit.enableLogging(true)
+sealed class LaunchAlertState {
+    object Initial                    // Initial state
+    object NoAlert                   // No alert available
+    data class Action(val data: String)           // Action completed
+    data class ActionError(val data: ApiError<*>?) // Action error
+    data class ShowView(val data: CheckUpdateResponse?)           // Show alert dialog
+    data class ShowViewError(val data: ApiError<*>?)             // Show error dialog
 }
 ```
 
-### Trackable Events
+## 🔌 API Integration
+
+The library integrates with your backend API. The base URL is configurable through `local.properties`:
+
+```properties
+# local.properties
+API_URL="https://your-api-domain.com/api/launch-alerts"
+```
+
+- **Check Alert**: `GET /launch-alerts`
+- **Send Action**: `POST /launch-alerts/{id}`
+
+### API Parameters
 
 ```kotlin
-LaunchAlertKit.setEventListener { event ->
-    when (event) {
-        is AlertShown -> {
-            // Alert was shown
-            analytics.track("alert_shown", mapOf(
-                "alert_id" to event.alertId,
-                "alert_type" to event.alertType
-            ))
-        }
-        is AlertDismissed -> {
-            // Alert was dismissed
-            analytics.track("alert_dismissed", mapOf(
-                "alert_id" to event.alertId
-            ))
-        }
-        is AlertConfirmed -> {
-            // Alert was confirmed
-            analytics.track("alert_confirmed", mapOf(
-                "alert_id" to event.alertId
-            ))
-        }
+// Check Alert Request
+GET /launch-alerts
+Headers:
+  - x-app-id: {appId}
+  - x-version: {version}
+  - x-sdk-version: {sdkVersion}
+  - x-device-uuid: {deviceId}
+
+// Send Action Request
+POST /launch-alerts/{id}
+Headers:
+  - x-app-id: {appId}
+  - x-version: {version}
+  - x-sdk-version: {sdkVersion}
+  - x-device-uuid: {deviceId}
+Body:
+  - action: "VIEW" | "CONFIRM"
+```
+
+### Response Format
+
+```json
+{
+    "data": {
+        "id": "alert-id",
+        "title": [
+            {"language": "en", "content": "Welcome to Our App"},
+            {"language": "fa", "content": "به اپلیکیشن ما خوش آمدید"}
+        ],
+        "description": [
+            {"language": "en", "content": "We're excited to have you!"},
+            {"language": "fa", "content": "از حضور شما خوشحالیم!"}
+        ],
+        "force": false,
+        "icon": "https://example.com/icon.png",
+        "link": "https://example.com/terms",
+        "button_title": [
+            {"language": "en", "content": "Continue"},
+            {"language": "fa", "content": "ادامه"}
+        ],
+        "cancel_button_title": [
+            {"language": "en", "content": "Cancel"},
+            {"language": "fa", "content": "لغو"}
+        ]
     }
 }
 ```
 
 ## 🧪 Testing
 
-### Unit Test
+The library includes comprehensive testing:
 
 ```kotlin
-@Test
-fun `test alert display logic`() = runTest {
-    val viewModel = LaunchAlertViewModel(mockApi, mockLocalDataSource)
-    val config = LaunchAlertServiceConfig(
-        version = "1.0.0",
-        appId = "test_app",
-        deviceId = "test_device",
-        lang = "en"
-    )
-    
-    viewModel.setConfig(config)
-    viewModel.getData()
-    
-    val state = viewModel.state.value
-    assertTrue(state is LaunchAlertState.Action)
-}
+// Unit Tests
+testImplementation 'junit:junit:4.13.2'
+testImplementation 'io.mockk:mockk:1.14.5'
+testImplementation 'app.cash.turbine:turbine:1.2.1'
+
+// UI Tests
+androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 ```
 
-### UI Test
+## 📱 Requirements
 
-```kotlin
-@Test
-fun testAlertDisplay() {
-    composeTestRule.setContent {
-        LaunchAlertView(
-            config = LaunchAlertViewConfig(
-                title = "Test Alert",
-                message = "Test Message"
-            )
-        )
-    }
-    
-    composeTestRule.onNodeWithText("Test Alert").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Test Message").assertIsDisplayed()
-}
+- **Minimum SDK**: 21 (Android 5.0)
+- **Target SDK**: 36 (Android 14)
+- **Kotlin**: 1.8.0+
+- **Jetpack Compose**: 1.4.0+
+
+## 🔒 Permissions
+
+Add to your `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
 ```
 
-## 🚀 Performance Optimization
+## 🎯 Best Practices
 
-### Optimal Settings
-
+### 1. Version Management
 ```kotlin
-val optimizedConfig = LaunchAlertServiceConfig(
-    // ... other settings
-    timeOut = 10000L,        // Optimal timeout
-    maxRetry = 2,            // Optimal retries
-    cacheEnabled = true,     // Enable cache
-    cacheExpiry = 3600000L   // Cache expiry (1 hour)
+// Use semantic versioning
+version = "1.2.3"  // Major.Minor.Patch
+```
+
+### 2. Device ID Generation
+```kotlin
+// Generate unique device ID
+val deviceId = Settings.Secure.getString(
+    contentResolver,
+    Settings.Secure.ANDROID_ID
 )
 ```
 
-### Memory Management
-
+### 3. Error Handling
 ```kotlin
-class MainActivity : ComponentActivity() {
-    private var launchAlertView: LaunchAlertView? = null
-    
-    override fun onDestroy() {
-        super.onDestroy()
-        // Clean up resources
-        launchAlertView = null
+// Always handle errors gracefully
+when (state) {
+    is LaunchAlertState.ShowViewError -> {
+        // Show user-friendly error message
+        showErrorDialog("Unable to load alert. Please try again later.")
     }
+    // ... other states
 }
 ```
 
-## 📋 Implementation Checklist
-
-- [ ] Add dependency to `build.gradle`
-- [ ] Configure in `Application` class
-- [ ] Set up `LaunchAlertServiceConfig`
-- [ ] Add `LaunchAlertView` to UI
-- [ ] Configure `LaunchAlertViewConfig` (optional)
-- [ ] Test functionality on different devices
-- [ ] Set up required languages
-- [ ] Configure security settings
-- [ ] Add monitoring
+### 4. Customization
+```kotlin
+// Match your app's theme
+LaunchAlertViewConfig(
+    popupViewBackGroundColor = MaterialTheme.colorScheme.surface,
+    submitButtonColor = MaterialTheme.colorScheme.primary,
+    headerTitleColor = MaterialTheme.colorScheme.onSurface
+)
+```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please:
-
-1. Fork the project
-2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Support
+## 🆘 Support
 
-- 📧 Email: support@example.com
-- 🐛 Bug Reports: [GitHub Issues](https://github.com/your-username/LaunchAlertKit/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/your-username/LaunchAlertKit/discussions)
+- 📧 Email: support@controlkit.com
+- 🐛 Issues: [GitHub Issues](https://github.com/ControlKit/LaunchAlertKit-Android/issues)
+- 📖 Documentation: [Wiki](https://github.com/ControlKit/LaunchAlertKit-Android/wiki)
 
-## 🔄 Version History
+## 🙏 Acknowledgments
 
-### Version 1.0.0
-- ✨ Initial release
-- 🎨 Modern UI with Jetpack Compose
-- 🌍 Multi-language support
-- 🔄 Smart UUID management
-- 🛡️ Complete error handling
+- Built with ❤️ using Jetpack Compose
+- Inspired by modern Android development practices
+- Thanks to all contributors and the Android community
 
 ---
 
-**Built with ❤️ for the Android community**
+**Made with ❤️ by ControlKit Team**
