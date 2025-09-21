@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -5,19 +7,29 @@ plugins {
     id("jacoco")
 
 }
-
+version = "0.0.1"
 android {
     namespace = "com.sepanta.controlkit.launchalertkit"
     compileSdk = 36
 
     defaultConfig {
         minSdk = 24
-
+        buildConfigField("int", "LIB_VERSION_CODE", "1")
+        buildConfigField("String", "LIB_VERSION_NAME", "\"${project.version}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { localProperties.load(it) }
+        }
+
+        val apiUrl = localProperties.getProperty("API_URL") ?: "https://example.com/api/launch-alert"
+        buildConfigField("String", "API_URL", "\"$apiUrl\"")
     }
 
     buildTypes {
@@ -39,7 +51,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
+    buildFeatures {
+        buildConfig = true
+    }
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
@@ -47,6 +61,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.material3)
+    implementation(libs.errorhandler)
+    implementation(libs.androidx.security.crypto)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -90,6 +106,34 @@ tasks.withType<Test> {
 
 tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
+
+    // Add explicit dependencies to fix Gradle validation issues
+    mustRunAfter("generateDebugAndroidTestResValues")
+    mustRunAfter("syncDebugLibJars")
+    mustRunAfter("syncReleaseLibJars")
+    mustRunAfter("generateDebugAndroidTestLintModel")
+    mustRunAfter("lintAnalyzeDebugAndroidTest")
+    mustRunAfter("mergeReleaseResources")
+    mustRunAfter("extractProguardFiles")
+    mustRunAfter("mergeDebugJavaResource")
+    mustRunAfter("mergeDebugJniLibFolders")
+    mustRunAfter("mergeReleaseJniLibFolders")
+    mustRunAfter("mergeReleaseJavaResource")
+    mustRunAfter("copyDebugJniLibsProjectAndLocalJars")
+    mustRunAfter("copyReleaseJniLibsProjectAndLocalJars")
+    mustRunAfter("copyDebugJniLibsProjectOnly")
+    mustRunAfter("copyReleaseJniLibsProjectOnly")
+    mustRunAfter("generateDebugLintModel")
+    mustRunAfter("generateReleaseLintModel")
+    mustRunAfter("lintAnalyzeDebug")
+    mustRunAfter("generateDebugLintReportModel")
+    mustRunAfter("generateReleaseLintVitalModel")
+    mustRunAfter("lintVitalAnalyzeRelease")
+    mustRunAfter("bundleLibRuntimeToDirDebug")
+    mustRunAfter("bundleLibRuntimeToDirRelease")
+    mustRunAfter("generateDebugUnitTestLintModel")
+    mustRunAfter("lintAnalyzeDebugUnitTest")
+    mustRunAfter("verifyReleaseResources")
 
     reports {
         xml.required.set(true)

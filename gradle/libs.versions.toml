@@ -1,29 +1,31 @@
 [versions]
-agp = "8.12.1"
+agp = "8.12.3"
 coilCompose = "2.7.0"
-converterGson = "2.9.0"
+errorhandler = "1.0.2"
+converterGson = "3.0.0"
 core = "1.7.0"
-kotlin = "2.2.10"
-coreKtx = "1.15.0"
+kotlin = "2.2.20"
+coreKtx = "1.17.0"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2025.08.00"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.9.4"
+activityCompose = "1.11.0"
+composeBom = "2025.09.00"
 appcompat = "1.7.1"
-lifecycleViewmodelCompose = "2.9.3"
+lifecycleViewmodelCompose = "2.9.4"
 loggingInterceptor = "5.1.0"
-material = "1.12.0"
+material = "1.13.0"
 mockwebserver = "5.1.0"
 okhttp = "5.1.0"
 retrofit = "3.0.0"
 datastorePreferences = "1.1.7"
+securityCrypto = "1.1.0"
 
-lifecycleViewmodelAndroid = "2.8.7"
+lifecycleViewmodelAndroid = "2.9.4"
 robolectric = "4.16"
-uiToolingPreview = "1.9.0"
-uiTooling = "1.9.0"
+uiToolingPreview = "1.9.1"
+uiTooling = "1.9.1"
 kotlinxCoroutinesTest = "1.10.2"
 mockk = "1.14.5"
 turbine = "1.2.1"
@@ -31,7 +33,8 @@ turbine = "1.2.1"
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
-
+errorhandler = { module = "com.github.Morteza-Sakiyan:ErrorHandler", version.ref = "errorhandler" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }

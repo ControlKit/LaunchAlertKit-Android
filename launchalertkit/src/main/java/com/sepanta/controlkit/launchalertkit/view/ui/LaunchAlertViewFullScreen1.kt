@@ -1,5 +1,6 @@
 package com.sepanta.controlkit.launchalertkit.view.ui
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -27,11 +28,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.sepanta.controlkit.launchalertkit.R
-import com.sepanta.controlkit.launchalertkit.config.utils.openLink
 import com.sepanta.controlkit.launchalertkit.service.model.CheckUpdateResponse
 import com.sepanta.controlkit.launchalertkit.theme.Black100
 import com.sepanta.controlkit.launchalertkit.theme.Typography
 import com.sepanta.controlkit.launchalertkit.theme.Yellow80
+import com.sepanta.controlkit.launchalertkit.util.Utils.openLink
 import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewConfig
 import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewContract
 import com.sepanta.controlkit.launchalertkit.view.viewmodel.LaunchAlertViewModel
@@ -47,7 +48,9 @@ class LaunchAlertViewFullScreen1 : LaunchAlertViewContract {
         val openDialog = viewModel.openDialog.collectAsState()
         if (!openDialog.value) return
         Dialog(
-            onDismissRequest = { viewModel.dismissDialog() },
+            onDismissRequest = {
+                viewModel.dismissDialog()
+                               },
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Surface(
@@ -65,7 +68,7 @@ class LaunchAlertViewFullScreen1 : LaunchAlertViewContract {
                     HeaderTitle(config, response)
                     DescriptionTitle(config, response)
                     ButtonSubmit(config, response, viewModel)
-                    ButtonCancel(config,viewModel,response)
+                    ButtonCancel(config, viewModel, response)
                 }
             }
 
@@ -191,7 +194,7 @@ class LaunchAlertViewFullScreen1 : LaunchAlertViewContract {
             colors = ButtonDefaults.buttonColors(
                 containerColor = config.submitButtonColor ?: Yellow80
             ),
-            modifier = Modifier
+            modifier = config.submitButtonLayoutModifier ?: Modifier
                 .padding(top = 50.dp)
                 .size(width = 222.dp, height = 42.dp),
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 5.dp)
@@ -215,16 +218,14 @@ class LaunchAlertViewFullScreen1 : LaunchAlertViewContract {
         }
         config.cancelButtonView?.let { button ->
             button(onClickAction)
-        } ?:
-
-        Button(
+        } ?: Button(
             onClick = onClickAction,
             shape = RoundedCornerShape(config.cancelButtonCornerRadius ?: 20.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = config.cancelButtonColor ?:  Color.Transparent
+                containerColor = config.cancelButtonColor ?: Color.Transparent
             ),
             border = BorderStroke(1.dp, Yellow80),
-            modifier = Modifier
+            modifier = config.cancelButtonLayoutModifier?:Modifier
                 .padding(top = 5.dp)
                 .size(width = 222.dp, height = 42.dp),
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 5.dp)

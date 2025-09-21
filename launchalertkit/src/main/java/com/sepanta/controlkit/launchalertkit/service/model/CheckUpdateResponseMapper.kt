@@ -1,6 +1,6 @@
 package com.sepanta.controlkit.launchalertkit.service.model
 
-import java.util.Locale
+import com.sepanta.controlkit.launchalertkit.util.Utils.getContentBySystemLang
 
 data class ApiCheckUpdateResponse(
     val data: ApiData
@@ -26,24 +26,20 @@ data class LocalizedText(
     val language: String?,
     val content: String?
 )
-fun List<LocalizedText>?.getContentBySystemLang(): String? {
-    val lang = Locale.getDefault().language
-    return this?.firstOrNull { it.language == lang }?.content
-        ?: this?.firstOrNull { it.language == "en" }?.content
-}
 
-fun ApiCheckUpdateResponse.toDomain(): CheckUpdateResponse {
+
+fun ApiCheckUpdateResponse.toDomain(lang: String?): CheckUpdateResponse {
     val d = this.data
     return CheckUpdateResponse(
         id = d.id,
-        version = d.version.getContentBySystemLang(),
-        title = d.title.getContentBySystemLang(),
+        version = d.version.getContentBySystemLang(lang),
+        title = d.title.getContentBySystemLang(lang),
         forceUpdate = d.force,
-        description = d.description.getContentBySystemLang(),
+        description = d.description.getContentBySystemLang(lang),
         iconUrl = d.icon,
         linkUrl = d.link,
-        buttonTitle = d.button_title.getContentBySystemLang(),
-        cancelButtonTitle = d.cancel_button_title.getContentBySystemLang(),
+        buttonTitle = d.button_title.getContentBySystemLang(lang),
+        cancelButtonTitle = d.cancel_button_title.getContentBySystemLang(lang),
         sdkVersion = d.sdk_version?.toString(),
         minimumVersion = d.minimum_version,
         maximumVersion = d.maximum_version,

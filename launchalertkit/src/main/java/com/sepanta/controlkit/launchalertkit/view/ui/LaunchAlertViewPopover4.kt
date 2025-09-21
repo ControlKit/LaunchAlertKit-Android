@@ -30,11 +30,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.sepanta.controlkit.launchalertkit.R
-import com.sepanta.controlkit.launchalertkit.config.utils.openLink
 import com.sepanta.controlkit.launchalertkit.service.model.CheckUpdateResponse
 import com.sepanta.controlkit.launchalertkit.theme.Black100
 import com.sepanta.controlkit.launchalertkit.theme.Typography
 import com.sepanta.controlkit.launchalertkit.theme.Yellow80
+import com.sepanta.controlkit.launchalertkit.util.Utils.openLink
 import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewConfig
 import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewContract
 import com.sepanta.controlkit.launchalertkit.view.viewmodel.LaunchAlertViewModel

@@ -23,32 +23,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
-import com.sepanta.controlkit.launchalertkit.service.model.CheckUpdateResponse
-import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewConfig
-import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewContract
 import com.sepanta.controlkit.launchalertkit.R
-import com.sepanta.controlkit.launchalertkit.config.utils.openLink
-import com.sepanta.controlkit.launchalertkit.service.local.PreferencesManager
+import com.sepanta.controlkit.launchalertkit.service.model.CheckUpdateResponse
 import com.sepanta.controlkit.launchalertkit.theme.Black100
 import com.sepanta.controlkit.launchalertkit.theme.Green20
 import com.sepanta.controlkit.launchalertkit.theme.Orange80
 import com.sepanta.controlkit.launchalertkit.theme.Typography
-import com.sepanta.controlkit.launchalertkit.theme.Yellow80
+import com.sepanta.controlkit.launchalertkit.util.Utils.openLink
+import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewConfig
+import com.sepanta.controlkit.launchalertkit.view.config.LaunchAlertViewContract
 import com.sepanta.controlkit.launchalertkit.view.viewmodel.LaunchAlertViewModel
 
 class LaunchAlertViewPopover1 : LaunchAlertViewContract {
