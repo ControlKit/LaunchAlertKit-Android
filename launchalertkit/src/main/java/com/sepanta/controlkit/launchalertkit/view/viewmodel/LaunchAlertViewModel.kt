@@ -101,9 +101,6 @@ class LaunchAlertViewModel(
     }
 
     private suspend fun handleResponse(response: CheckUpdateResponse?) {
-        showAlert(response!!)
-
-        return
         if (response == null || response.id == null) {
             _mutableState.value = LaunchAlertState.NoAlert
             return
