@@ -291,12 +291,7 @@ sealed class LaunchAlertState {
 
 ## 🔌 API Integration
 
-The library integrates with your backend API. The base URL is configurable through `local.properties`:
-
-```properties
-# local.properties
-API_URL="https://your-api-domain.com/api/launch-alerts"
-```
+The library integrates with your backend API:
 
 - **Check Alert**: `GET /launch-alerts`
 - **Send Action**: `POST /launch-alerts/{id}`
@@ -390,16 +385,7 @@ Add to your `AndroidManifest.xml`:
 version = "1.2.3"  // Major.Minor.Patch
 ```
 
-### 2. Device ID Generation
-```kotlin
-// Generate unique device ID
-val deviceId = Settings.Secure.getString(
-    contentResolver,
-    Settings.Secure.ANDROID_ID
-)
-```
-
-### 3. Error Handling
+### 2. Error Handling
 ```kotlin
 // Always handle errors gracefully
 when (state) {
@@ -411,7 +397,7 @@ when (state) {
 }
 ```
 
-### 4. Customization
+### 3. Customization
 ```kotlin
 // Match your app's theme
 LaunchAlertViewConfig(

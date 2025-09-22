@@ -77,9 +77,9 @@ private fun createOkHttpClient(): OkHttpClient {
     }
 
     return OkHttpClient.Builder()
-        .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
-        .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-        .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+        .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+        .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+        .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
         .addInterceptor(retryInterceptor)
         .addInterceptor(logging)
         .build()
