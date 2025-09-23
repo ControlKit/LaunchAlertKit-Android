@@ -420,6 +420,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📧 Email: support@controlkit.com
 - 🐛 Issues: [GitHub Issues](https://github.com/ControlKit/LaunchAlertKit-Android/issues)
 - 📖 Documentation: [Wiki](https://github.com/ControlKit/LaunchAlertKit-Android/wiki)
+- 🍎 iOS Version: [LaunchAlertKit iOS](https://github.com/ControlKit/LaunchAlertKit)
 
 ## 🙏 Acknowledgments
 
